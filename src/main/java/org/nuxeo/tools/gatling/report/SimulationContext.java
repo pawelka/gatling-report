@@ -18,10 +18,7 @@ package org.nuxeo.tools.gatling.report;
 
 import static java.lang.Math.max;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class SimulationContext {
@@ -33,9 +30,9 @@ public class SimulationContext {
 
     protected final RequestStat simStat;
 
-    protected final Map<String, RequestStat> reqStats = new HashMap<>();
+    protected final Map<String, RequestStat> reqStats = new LinkedHashMap<>();
 
-    protected final Map<String, CountMax> users = new HashMap<>();
+    protected final Map<String, CountMax> users = new LinkedHashMap<>();
 
     protected String simulationName;
 
@@ -68,7 +65,7 @@ public class SimulationContext {
 
     public List<RequestStat> getRequests() {
         List<RequestStat> ret = new ArrayList<>(reqStats.values());
-        ret.sort((a, b) -> (int) (1000 * (a.avg - b.avg)));
+//        ret.sort((a, b) -> (int) (1000 * (a.avg - b.avg)));
         return ret;
     }
 
