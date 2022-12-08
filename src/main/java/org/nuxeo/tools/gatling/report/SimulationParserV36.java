@@ -24,6 +24,7 @@ import java.util.*;
  */
 public class SimulationParserV36 extends SimulationParser {
 
+
     public SimulationParserV36(File file, Float apdexT) {
         super(file, apdexT);
     }
@@ -40,8 +41,24 @@ public class SimulationParserV36 extends SimulationParser {
         return line.get(3);
     }
 
+    private String lastScenario = null;
+
+    final protected Map<String, String> groupToScenario = new HashMap<>();
+
     protected String getScenario(List<String> line) {
-        return line.get(1);
+        String scenario;
+        if (USER.equals(line.get(0))) {
+            if (START.equals(line.get(2))) {
+                lastScenario = line.get(1);
+                return line.get(1);
+            }
+        } else if (RUN.equals(line.get(0))) {
+            return line.get(1);
+        }
+
+        //Request
+        String group = line.get(1);
+        return groupToScenario.computeIfAbsent(group, k -> lastScenario);
     }
 
     protected String getType(List<String> line) {
