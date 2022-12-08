@@ -80,7 +80,16 @@ public class SimulationContext {
         maxUsers = users.values().stream().mapToInt(CountMax::getMax).sum();
         simStat.computeStat(maxUsers);
         reqStats.values()
-                .forEach(request -> request.computeStat(simStat.duration, users.get(request.scenario).maximum));
+                .forEach(request -> request.computeStat(simStat.duration, getCountMax(request.scenario).maximum));
+    }
+
+    private CountMax getCountMax(String scenarioName){
+        CountMax result = users.get(scenarioName);
+        if(users.size() == 1){
+            return users.values().iterator().next();
+        }else{
+            throw new IllegalStateException("Cannot connect user scenario with request group");
+        }
     }
 
     public void setScenarioName(String name) {

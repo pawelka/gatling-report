@@ -24,8 +24,6 @@ import java.util.*;
  */
 public class SimulationParserV36 extends SimulationParser {
 
-    final protected Set<String> scenario = new HashSet<>();
-
     public SimulationParserV36(File file, Float apdexT) {
         super(file, apdexT);
     }
@@ -43,19 +41,7 @@ public class SimulationParserV36 extends SimulationParser {
     }
 
     protected String getScenario(List<String> line) {
-        String user;
-        if (USER.equals(line.get(0))) {
-            user = line.get(2);
-            if (START.equals(line.get(2))) {
-                scenario.add(line.get(1));
-                return line.get(1);
-            }
-        } else if (RUN.equals(line.get(0))) {
-            return line.get(1);
-        } else {
-            user = line.get(1);
-        }
-        return scenario.stream().filter($ -> $.contains(user)).findFirst().orElse(null);
+        return line.get(1);
     }
 
     protected String getType(List<String> line) {
